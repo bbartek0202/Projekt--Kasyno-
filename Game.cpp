@@ -1,13 +1,13 @@
-#include "Gra.h"
+#include "Game.h"
 using namespace std;
 
-Gra::Gra(Uzytkownik *A)
+Game::Game(User *A)
 {
 	double konto, wygrana;
 	int nr=0, pomoc=1, iwygrane;
 	string linia, tab[5];
     fstream plik;
-	plik.open("gracze.txt", ios::in);
+	plik.open("gamers.txt", ios::in);
     while(getline(plik,linia))
     {
         switch(pomoc)
@@ -39,18 +39,18 @@ Gra::Gra(Uzytkownik *A)
 				konto=atof(tab[2].c_str());
 				wygrana=atof(tab[3].c_str());
 				iwygrane=atoi(tab[4].c_str());
-				A[nr].zapis(tab[0],tab[1],konto,wygrana,iwygrane);
+				A[nr].record(tab[0],tab[1],konto,wygrana,iwygrane);
 				nr++;
 			}break;
 		}	    
 	}
     plik.close();
-	Gra::ilosc+=(nr-1);
+	Game::ilosc+=(nr-1);
 }
-void Gra::zapis(Uzytkownik *A)
+void Game::record(User *A)
 {
 	fstream plik;
-    plik.open("gracze.txt", ios::out);
+    plik.open("gamers.txt", ios::out);
     for(int i=0;i<=ilosc;i++)
     {
         plik<<A[i].nick<<endl;
@@ -62,7 +62,7 @@ void Gra::zapis(Uzytkownik *A)
     plik.close();
 }
 
-int Gra::logowanie(Uzytkownik *A)
+int Game::login(User *A)
 {
 	int logowanie, numer_gracza, pomoc=1;
 	bool sprawdzenie;
@@ -71,7 +71,13 @@ int Gra::logowanie(Uzytkownik *A)
     cout<<"Jesli chcesz sie zarejastrowac wcisnij- 2"<<endl;
     while(logowanie!=1 && logowanie!=2)
     {
-        cin>>logowanie;
+        
+	while(!(cin>>logowanie))
+	{
+		cout<<"Nie podales liczby, jeszcze raz"<<endl;
+  		cin.clear();
+  		cin.ignore(1000,'\n');
+	}
         if(logowanie!=1 && logowanie!=2)
             cout<<"Podales zla operacje, jeszcze raz"<<endl;
     }
@@ -149,13 +155,13 @@ int Gra::logowanie(Uzytkownik *A)
 		cin>>A[numer_gracza].haslo;
     	cout<<"Podaj ile chcesz wniesc do gry"<<endl;
     	cin>>A[numer_gracza].konto;
-		A[numer_gracza].O.zapis(0,0);
-		A[numer_gracza].R.sprawdz();
+		A[numer_gracza].O.record(0,0);
+		A[numer_gracza].R.check();
     }
 	return numer_gracza;
 }
 
-void Gra::menu(Uzytkownik *A, int numer)
+void Game::menu(User *A, int numer)
 {
 	int opcja=0, zakoncz=0, rodzaj_gry=0;
 	while(zakoncz!=2)
@@ -168,7 +174,12 @@ void Gra::menu(Uzytkownik *A, int numer)
         	cout<<"Jesli chcesz obejrzec osiagniecia wcisnij- 2"<<endl;
         	while(opcja!=1 && opcja!=2)
         	{
-            		cin>>opcja;
+			while(!(cin>>opcja))
+			{
+				cout<<"Nie podales liczby, jeszcze raz"<<endl;
+  				cin.clear();
+  				cin.ignore(1000,'\n');
+			}
             		if(opcja!=1 && opcja!=2)
                 		cout<<"Podales zla opcje, jeszcze raz"<<endl;
         	}
@@ -179,7 +190,12 @@ void Gra::menu(Uzytkownik *A, int numer)
             	cout<<"Jesli w kosci wcisnij- 2"<<endl;
             	while(rodzaj_gry!=1 && rodzaj_gry!=2)
             	{
-                	cin>>rodzaj_gry;
+			while(!(cin>>rodzaj_gry))
+			{
+				cout<<"Nie podales liczby, jeszcze raz"<<endl;
+  				cin.clear();
+  				cin.ignore(1000,'\n');
+			}
                 	if(rodzaj_gry!=1 && rodzaj_gry!=2)
                     	cout<<"Podales zla opcje, jeszcze raz"<<endl;
             	}
@@ -187,30 +203,35 @@ void Gra::menu(Uzytkownik *A, int numer)
 				{
 					case 1:
 						{
-							Ruletka RR(A[numer]);
-							RR.nowa_partia();
-							RR.sprawdz_osiagniecia(A[numer]);
-							RR.zakoncz_gre(A[numer]);
+							Roulette RR(A[numer]);
+							RR.new_game();
+							RR.check_achievements(A[numer]);
+							RR.end_game(A[numer]);
 						}break;
 					case 2:
 						{
-							Kosci KK(A[numer]);
-							KK.nowa_partia();
-							KK.sprawdz_osiagniecia(A[numer]);
-							KK.zakoncz_gre(A[numer]);
+							Yahtzee KK(A[numer]);
+							KK.new_game();
+							KK.check_achievements(A[numer]);
+							KK.end_game(A[numer]);
 						}break;
 				}
 				
 			}
 			else if(opcja==2)
         	{
-				A[numer].O.pokaz_osiagniecia();
+				A[numer].O.show_achievements();
 			}
 			cout<<"Jesli chcesz zagrac w inna gre lub zobaczyc najlepsze wyniki wcisnij-1"<<endl;
         	cout<<"Jesli chcesz zakonczyc gre wcisnij- 2"<<endl;
         	while(zakoncz!=1 && zakoncz!=2)
         	{
-            	cin>>zakoncz;
+		while(!(cin>>zakoncz))
+		{
+			cout<<"Nie podales liczby, jeszcze raz"<<endl;
+  			cin.clear();
+  			cin.ignore(1000,'\n');
+		}
             	if(zakoncz!=1 && zakoncz!=2)
                 	cout<<"Podales zla opcje, jeszcze raz"<<endl;
             	

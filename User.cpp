@@ -1,24 +1,24 @@
-#include "Uzytkownik.h"
+#include "User.h"
 using namespace std;
 
-Uzytkownik::Uzytkownik()
+User::User()
 {
 	nick="brak";
 	haslo="brak";
 	konto=0;
 }
 
-void Uzytkownik::zapis(string nn, string hh, ogrom kon, ogrom najwyg, int ilwyg)
+void User::record(string nn, string hh, ogrom kon, ogrom najwyg, int ilwyg)
 {
 	nick=nn;
 	haslo=hh;
 	konto=kon;
-	O.zapis(najwyg, ilwyg);
-	R.sprawdz_punkty(O);
+	O.record(najwyg, ilwyg);
+	R.check_points(O);
 	
 }
 
-void Uzytkownik::zmien_haslo()
+void User::change_password()
 {
 for(int i=0;i<3;i++)
 {
@@ -43,17 +43,17 @@ for(int i=0;i<3;i++)
 }	
 }
 
-ogrom Uzytkownik::sprawdz_stan_konta()
+ogrom User::check_account()
 {
 	return konto;
 }
 
-void Uzytkownik::sprawdz_range()
+void User::check_rank()
 {
-	R.pokaz();
+	R.show();
 }
 
-void Uzytkownik::sprawdz_osiagniecia()
+void User::check_achievements()
 {
-	O.pokaz_osiagniecia();
+	O.show_achievements();
 }

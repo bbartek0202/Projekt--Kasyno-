@@ -1,19 +1,19 @@
 #pragma once
-#include "Osiagniecia.h"
+#include "Achievements.h"
 #include <iostream>
 #include <string.h>
 typedef unsigned long long int ogrom;
 
-class Ranga
+class Rank
 {
 private:
 	int poziom;
 	std::string nazwa;
 	ogrom punkty;
-	friend class Uzytkownik;
+	friend class User;
 public:
-	Ranga();
-	void sprawdz_punkty(Osiagniecia &);
-	void sprawdz();
-	void pokaz();
+	Rank();
+	void check_points(Achievements &);
+	void check();
+	void show();
 };

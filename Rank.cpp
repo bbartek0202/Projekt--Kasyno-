@@ -1,19 +1,19 @@
-#include "Ranga.h"
+#include "Rank.h"
 using namespace std;
 
-Ranga::Ranga()
+Rank::Rank()
 {
 	poziom=1;
 	punkty=0;
 	nazwa="Amator";
 }
 
-void Ranga::sprawdz_punkty(Osiagniecia &A)
+void Rank::check_points(Achievements &A)
 {
 	punkty=A.najwieksza_wygrana+(ogrom(A.ilosc_wygranych));
 }
 
-void Ranga::sprawdz()
+void Rank::check()
 {
 	poziom=punkty/1000+1;
 	switch(poziom)
@@ -47,7 +47,7 @@ void Ranga::sprawdz()
 	}
 }
 
-void Ranga::pokaz()
+void Rank::show()
 {
 	cout<<"Twoj poziom to: "<<poziom<<endl;
 	cout<<"Masz range: "<<nazwa<<endl;

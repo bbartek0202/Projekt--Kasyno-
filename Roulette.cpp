@@ -1,9 +1,10 @@
-#include "Ruletka.h"
+#include "Roulette.h"
 using namespace std;
 
-Ruletka::Ruletka(Uzytkownik &A)
+Roulette::Roulette(User &A)
 {
 	int pomoc=0;
+	cout<<"Posiadasz: "<<A.konto<<endl;
 	cout<<"Podaj ile chcesz wniesc do gry: ";
 while((A.konto)<kasa)
 {
@@ -11,32 +12,47 @@ while((A.konto)<kasa)
 	{
 		cout<<"Podales wiecej niz masz na koncie, jeszcze raz: ";
 	}	
-	cin>>kasa;
-	A.konto-=kasa;
+	while(!(cin>>kasa))
+	{
+		cout<<"Nie podales liczby, jeszcze raz"<<endl;
+  		cin.clear();
+  		cin.ignore(1000,'\n');
+	}
 	pomoc++;
 	wygrana=0;
 	wygrane_partie=0;
 }
+A.konto-=kasa;
 }
-void Ruletka::nowa_partia()
+void Roulette::new_game()
 {
 int pomoc=1, liczba;
 ogrom zaklad;
 while(pomoc==1)
     {
 	zaklad=0;
-	liczba=0;
+	liczba=-1;
         cout<<"Najpierw wybierz liczbe na ktora chcesz postawic\nz przedzialu 0-34"<<endl;
         while(liczba>34 || liczba<0)
         {
-            cin>>liczba;
+		while(!(cin>>liczba))
+		{
+			cout<<"Nie podales liczby, jeszcze raz"<<endl;
+  			cin.clear();
+  			cin.ignore(1000,'\n');
+		}
             if(liczba>34 || liczba<0)
                 cout<<"Podales liczbe z poza planszy, jeszcze raz"<<endl;
         }
 		cout<<"A teraz wprowadz stawke: "<<endl;
         while(zaklad>kasa || zaklad<=0)
         {
-            cin>>zaklad;
+		while(!(cin>>zaklad))
+		{
+			cout<<"Nie podales liczby, jeszcze raz"<<endl;
+  			cin.clear();
+  			cin.ignore(1000,'\n');
+		}
             if(zaklad>kasa || zaklad<0)
                 cout<<"Podales nieprawidlowa stawke, sproboj jeszcze raz"<<endl;
 
@@ -60,24 +76,30 @@ while(pomoc==1)
                 cout<<"Niestety nie udalo ci sie trafic, bedzie lepiej"<<endl;
             }
 		pomoc=0;
+	cout<<"Stan konta w grze to: "<<kasa<<endl;
         cout<<"Chcesz zagrac jeszcze raz?"<<endl;
         cout<<"Jesli tak- 1"<<endl;
         cout<<"Jesli nie- 2"<<endl;
         while(pomoc<1 || pomoc>2)
         {
-            cin>>pomoc;
+		while(!(cin>>pomoc))
+		{
+			cout<<"Nie podales liczby, jeszcze raz"<<endl;
+  			cin.clear();
+  			cin.ignore(1000,'\n');
+		}
             if(pomoc<1 || pomoc>2)
                 cout<<"Wybrales zla opcje, jeszcze raz"<<endl;
         }
     }
 }
 
-void Ruletka::zakoncz_gre(Uzytkownik &A)
+void Roulette::end_game(User &A)
 {
 	A.konto+=kasa;
 	cout<<"Twoj stan konta po grze w ruletke to: "<<A.konto<<endl;
 }
-void Ruletka::sprawdz_osiagniecia(Uzytkownik &A)
+void Roulette::check_achievements(User &A)
 {
-	A.O.sprawdz_wygrana(wygrana, wygrane_partie);
+	A.O.check_win(wygrana, wygrane_partie);
 }
